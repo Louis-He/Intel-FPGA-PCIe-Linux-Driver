@@ -1,0 +1,47 @@
+altera_dma -- Linux driver (modified)
+--------------------------
+
+INSTALL & RUN
+-------------
+
+To make and install the driver,
+    sudo ./install <device_family>
+
+*device_family - arria10,cyclone10,stratix10,stratixv
+
+To bring up a simple menu to issue commands to the driver,
+    sudo ./run
+
+------------
+How to Deploy after fresh pc start
+
+sudo cat /proc/devices      #  choose a device number that isn't already taken. In this case I have used 243
+sudo mknod /dev/altera_dma c 262 0
+sudo chmod 0644 /dev/altera_dma
+ls -al /dev/altera_dma
+
+------------
+Re-enable the driver
+
+sudo rmmod altera_dma.ko
+sudo insmod altera_dma.ko
+
+------------
+Useful debug tips
+
+sudo dmesg # Check kernel debug message
+
+------------
+Changes made to the driver
+1. There are several Linux kernel APIs that are deprecated and removed in the latest kernel. These APIs are replaced with new ones. The driver is modified to use the new APIs.
+
+------------
+Testing and Disclaimer
+1. Although I am an Intel employee, this driver is NOT an official Intel driver. The work under this repository is for my own personal use (want to try the FPGA for fun). It is provided as-is and without any warranty.
+2. The driver is only tested using Intel StratixV FPGA with Linux kernel 6.2.0-39-generic. The operating system is Ubuntu 11.4.0-1ubuntu1~22.04.
+3. The FPGA design used the Intel reference PCIe design for StratixV.
+
+------------
+Credit:
+This repository is not possible without the orignal work of: Altera driver and a GitHub repo that supported StartixV:
+https://github.com/bluecmd/an829_driver
